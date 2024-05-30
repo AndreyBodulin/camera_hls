@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import Hls from "hls.js";
+import styles from "./index.module.scss";
 
 interface HLSVideoProps {
   src: string;
@@ -44,7 +45,13 @@ const HLSVideo: React.FC<HLSVideoProps> = ({
   }, [src]);
 
   return (
-    <video ref={videoRef} controls={controls} width={width} autoPlay>
+    <video
+      className={styles.video}
+      ref={videoRef}
+      controls={controls}
+      width={width}
+      autoPlay
+    >
       Your browser does not support the video tag.
     </video>
   );

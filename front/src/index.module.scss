@@ -1,0 +1,12 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 480px;
+  border: 1px solid #008e9b;
+}
+
+.wrapper {
+  display: flex;
+}
