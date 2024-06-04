@@ -2,6 +2,7 @@ const express = require("express");
 const { spawn } = require("child_process");
 const path = require("path");
 const fs = require("fs");
+const cors = require('cors')
 
 const app = express();
 const port = 3010;
@@ -217,6 +218,8 @@ const Cam_obj = {
 // Запускаем ffmpeg при старте сервера
 // startFFmpeg();
 //startFFmpegAll();
+
+app.use(cors());
 
 // Отдача HLS сегментов и плейлиста клиенту
 // app.use("/hls", express.static(hlsDir));
