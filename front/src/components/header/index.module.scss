@@ -1,17 +1,28 @@
 .header {
   display: flex;
-  height: 75px;
-  width: inherit;
-  background-color: #008e9b;
+  flex-direction: row;
   align-items: center;
+  gap: 40px;
+  height: 60px;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0px 25px;
 }
 
-.logoHead {
-  margin-left: 25px;
-}
+.textualInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 
-.spanHead {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 25px;
-  margin-left: 25px;
+  .title {
+    color: #373131;
+    font-size: 24px;
+  }
+
+  .date {
+    color: #a2a7b4;
+    font-size: 12px;
+    font-weight: 500;
+  }
 }

@@ -1,13 +1,19 @@
 import React from "react";
 import styles from "./index.module.scss";
-import pngCam from "../../assets/video-camera.png";
+import Logo from "../../assets/logo.svg";
+import dayjs from "dayjs";
+import { Button, Tooltip } from "antd";
 
 export const Header = () => {
   return (
     <div className={styles.header}>
-      <img className={styles.logoHead} src={pngCam} alt="no photo"></img>
-      <span className={styles.spanHead}>6 Корпус</span>
-      <span className={styles.spanHead}>3 Этаж</span>
+      <img src={Logo} />
+      <div className={styles.textualInfo}>
+        <div className={styles.title}>
+          [Internal] Surveillance camera streaming service
+        </div>
+        <div className={styles.date}>{dayjs().format("MMMM D, YYYY")}</div>
+      </div>
     </div>
   );
 };

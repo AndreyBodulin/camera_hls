@@ -193,7 +193,7 @@ const Cam_obj = {
     rtsp: "rtsp://admin:Qwerty123@192.168.1.32:554/cam/realmonitor?channel=1&subtype=1",
   },
   cam_2: {
-    name: "Кабинет 309",
+    name: "Кабинет 301",
     rtsp: "rtsp://admin:Qwerty123@192.168.1.33:554/cam/realmonitor?channel=1&subtype=1",
   },
   cam_3: {

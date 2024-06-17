@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import styles from "./Cam.module.scss";
+import { Checkbox } from "antd";
 
 type CamProps = {
   name: string;
@@ -10,8 +11,7 @@ type CamProps = {
 export const Cam: FC<CamProps> = ({ name, rtsp, onCheck }) => {
   return (
     <div className={styles.container}>
-      <input type="checkbox" onClick={() => onCheck(rtsp)} />
-      <div>{name}</div>
+      <Checkbox onChange={() => onCheck(rtsp)}>{name}</Checkbox>
     </div>
   );
 };

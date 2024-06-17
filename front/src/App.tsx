@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import HLSVideo from "./components/HLSVideo/HLSVideo";
 import { Header } from "./components/header/Header";
 import { useEffect } from "react";
-import styles from "./index.module.scss";
 import { Cam } from "./components/cam/Cam";
-import { Spinner } from "./components/Spinner";
 import { CamData } from "./types/common";
 import { SendActiveCameraResponse } from "./types/api/send-active-camera";
+import { Button, Spin, notification } from "antd";
+import styles from "./index.module.scss";
+
+enum NotificationType {
+  success = "success",
+  info = "info",
+  warning = "warning",
+  error = "error",
+}
 
 function App() {
   const [cams, setCams] = useState<CamData[]>([]);
@@ -15,6 +22,19 @@ function App() {
   const [checkedCam, setCheckedCam] = useState<string[]>([]);
   const [streamUrl, setStreamUrl] = useState<string>("");
   const isShownVideo = Boolean(streamUrl) && !isLoadingStream;
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (
+    type: NotificationType,
+    message: string,
+    description: string
+  ) => {
+    api[type]({
+      message,
+      description,
+    });
+  };
 
   const handleCheck = (rtsp: string) => {
     if (checkedCam.includes(rtsp)) {
@@ -37,12 +57,19 @@ function App() {
       });
 
       const { data, message }: SendActiveCameraResponse = await response.json();
-      if (message) {
-        alert(message);
-      }
+
       setStreamUrl(data.streamUrl);
+      openNotification(
+        NotificationType.success,
+        "Выполненно",
+        "Данные о камерах успешно получены"
+      );
     } catch (error) {
-      console.error(error);
+      openNotification(
+        NotificationType.error,
+        "Ошибка",
+        "Не удалось получить данные о камерах"
+      );
     } finally {
       setIsLoadingStream(false);
     }
@@ -67,31 +94,45 @@ function App() {
   }, []);
 
   if (isLoading) {
-    return <Spinner />;
+    return <Spin className={styles.initialSpinner} size="large" />;
   }
-  console.log(checkedCam);
 
   return (
-    <div>
-      <Header />
-      <div className={styles.wrapper}>
-        <div className={styles.content}>
-          {cams.map((cam) => (
-            <Cam
-              key={cam.name}
-              rtsp={cam.rtsp}
-              name={cam.name}
-              onCheck={handleCheck}
-            />
-          ))}
-          <button onClick={handleButtonClick}>Построить квадатор</button>
+    <>
+      {contextHolder}
+
+      <div className={styles.container}>
+        <Header />
+        <div className={styles.wrapper}>
+          <div className={styles.content}>
+            <h2 className={styles.title}>Список камер</h2>
+            {cams.map((cam) => (
+              <Cam
+                key={cam.name}
+                rtsp={cam.rtsp}
+                name={cam.name}
+                onCheck={handleCheck}
+              />
+            ))}
+            <Button
+              className={styles.button}
+              onClick={handleButtonClick}
+              loading={isLoadingStream}
+              size="middle"
+              type="primary"
+            >
+              Построить квадатор
+            </Button>
+          </div>
+          <div className={styles.videoSection}>
+            {isLoadingStream && (
+              <Spin className={styles.loadingSpinner} size="large" />
+            )}
+            {isShownVideo && <HLSVideo src={streamUrl} controls={true} />}
+          </div>
         </div>
-        {isLoadingStream && <Spinner />}
-        {isShownVideo && (
-          <HLSVideo src={streamUrl} controls={true} width={"480px"} />
-        )}
       </div>
-    </div>
+    </>
   );
 }
 
